@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Player : Actor {
 
-    float speed =0.05f;
+    
 
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
+        speed = 0.05f;
+        jumpPower = 5;
+
 	}
 
     // Update is called once per frame
@@ -31,6 +34,10 @@ public class Player : Actor {
         {
             movementController.Move(1, speed);
             animationController.setAnimValue(false);
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            movementController.Jump();
         }
     }
 }

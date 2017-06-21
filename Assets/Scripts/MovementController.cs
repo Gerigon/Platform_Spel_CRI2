@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour {
 
-    private float speed = 0.05f;
-    private Actor _owner;
+    
+    public Actor _owner;
+    private bool grounded;
+    private Rigidbody rigidBody;
 
-    public MovementController (Actor owner)
-    {
-        owner.movementController = this;
-        _owner = owner;
-    }
+    
 
 	// Use this for initialization
 	void Start () {
-	}
+        rigidBody = GetComponent<Rigidbody>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-   
 
+        //Debug.Log(grounded);
     }
 
     public void Move(int dir, float speed)
@@ -28,18 +27,43 @@ public class MovementController : MonoBehaviour {
         switch (dir )
         {
             case 0:
-                transform.Translate(new Vector3(0, 0, 0.6f) * speed, Space.World);
+                transform.Translate(new Vector3(0, 0, 0.6f) * _owner.speed, Space.World);
                 break;
             case 1:
-                transform.Translate(new Vector3(1, 0, 0) * speed, Space.World);
+                transform.Translate(new Vector3(1, 0, 0) * _owner.speed, Space.World);
                 break;
             case 2:
-                 transform.Translate(new Vector3(0, 0, -0.6f) * speed, Space.World);
+                 transform.Translate(new Vector3(0, 0, -0.6f) * _owner.speed, Space.World);
                 break;
             case 3:
-                transform.Translate(new Vector3(-1, 0, 0) * speed, Space.World);
+                transform.Translate(new Vector3(-1, 0, 0) * _owner.speed, Space.World);
                 break;
         }
         
+    }
+    public void Jump()
+    {
+        
+        if (grounded)
+        {
+            Debug.Log(_owner.jumpPower);
+            rigidBody.velocity = new Vector3(0, 1*_owner.jumpPower, 0);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        //Debug.Log(collision.collider.name);
+        if (collision.collider.name=="Floor")
+        {
+            grounded = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        //Debug.Log(collision.collider.name);
+        if (collision.collider.name == "Floor")
+        {
+            grounded = false;
+        }
     }
 }
