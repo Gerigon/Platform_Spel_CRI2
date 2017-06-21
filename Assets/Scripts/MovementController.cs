@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour {
 
-    private float speed = 0.05f;  
+    private float speed = 0.05f;
+    private Actor _owner;
+
+    public MovementController (Actor owner)
+    {
+        owner.movementController = this;
+        _owner = owner;
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -16,11 +23,11 @@ public class MovementController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(new Vector3(0, 0, 1)*speed, Space.World);
+            transform.Translate(new Vector3(0, 0, 0.6f)*speed, Space.World);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(new Vector3(0, 0, -1) * speed, Space.World);
+            transform.Translate(new Vector3(0, 0, -0.6f) * speed, Space.World);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -30,6 +37,10 @@ public class MovementController : MonoBehaviour {
         {
             transform.Translate(new Vector3(1, 0, 0) * speed, Space.World);
         }
+
+    }
+    void Move()
+    {
 
     }
 }
