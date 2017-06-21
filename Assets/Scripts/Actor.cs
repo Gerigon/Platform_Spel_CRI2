@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour {
 
-
+    public AnimationController animationController;
     public MovementController movementController;
 	
     // Use this for initialization
 	protected virtual void Start () {
+        animationController = gameObject.AddComponent<AnimationController>();
+        animationController._owner = this;
         movementController = gameObject.AddComponent<MovementController>();
-        Debug.Log(movementController);
 		
 	}
 
