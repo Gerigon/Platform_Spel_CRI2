@@ -6,14 +6,16 @@ public class Actor : MonoBehaviour {
 
 
     public MovementController movementController;
-	// Use this for initialization
-	void Start () {
-        movementController = new MovementController(this);
+	
+    // Use this for initialization
+	protected virtual void Start () {
+        movementController = gameObject.AddComponent<MovementController>();
+        Debug.Log(movementController);
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    protected virtual void Update () {
 		
 	}
 }
