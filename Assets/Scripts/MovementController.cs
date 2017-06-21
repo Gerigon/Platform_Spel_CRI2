@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour {
 
+    private float speed = 0.05f;  
+
 	// Use this for initialization
 	void Start () {
 		
@@ -14,8 +16,20 @@ public class MovementController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.W))
         {
-
+            transform.Translate(new Vector3(0, 0, 1)*speed, Space.World);
         }
-		
-	}
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(new Vector3(0, 0, -1) * speed, Space.World);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(new Vector3(-1, 0, 0) * speed, Space.World);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(new Vector3(1, 0, 0) * speed, Space.World);
+        }
+
+    }
 }
