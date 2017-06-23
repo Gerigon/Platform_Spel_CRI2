@@ -31,4 +31,8 @@ public class AnimationController : MonoBehaviour {
     {
         anim.SetBool("Flip", value);
     }
+    public void setAnimValue(string trigger)
+    {
+        anim.SetTrigger(trigger);
+    }
 }

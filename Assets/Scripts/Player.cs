@@ -39,5 +39,10 @@ public class Player : Actor {
         {
             movementController.Jump();
         }
+        if (Input.GetMouseButtonDown(0))
+        {
+            movementController.Attack();
+            animationController.setAnimValue("Attack");
+        }
     }
 }

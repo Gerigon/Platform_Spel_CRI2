@@ -8,12 +8,14 @@ public class MovementController : MonoBehaviour {
     public Actor _owner;
     private bool grounded;
     private Rigidbody rigidBody;
+    private BoxCollider attackBox;
 
     
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
+        attackBox = transform.GetChild(1).GetComponent<BoxCollider>();
     }
 	
 	// Update is called once per frame
@@ -46,10 +48,16 @@ public class MovementController : MonoBehaviour {
         
         if (grounded)
         {
-            Debug.Log(_owner.jumpPower);
+            Debug.Log(rigidBody.transform.name);
             rigidBody.velocity = new Vector3(0, 1*_owner.jumpPower, 0);
         }
     }
+
+    public void Attack()
+    {
+        attackBox.enabled = !attackBox.enabled;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.collider.name);
