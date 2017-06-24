@@ -8,6 +8,7 @@ public class Actor : MonoBehaviour {
     public MovementController movementController;
     public float speed;
     public float jumpPower;
+    public int health = 100;
 
     // Use this for initialization
     protected virtual void Start () {

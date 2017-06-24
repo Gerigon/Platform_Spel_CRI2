@@ -9,13 +9,20 @@ public class MovementController : MonoBehaviour {
     private bool grounded;
     private Rigidbody rigidBody;
     private BoxCollider attackBox;
-
+    private List<BoxCollider> childColliders;
     
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
         attackBox = transform.GetChild(1).GetComponent<BoxCollider>();
+        childColliders = new List<BoxCollider>();
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            childColliders.Add( transform.GetChild(i).GetComponent<BoxCollider>() );
+            Debug.Log(childColliders[i].name);
+        }
     }
 	
 	// Update is called once per frame
@@ -73,5 +80,21 @@ public class MovementController : MonoBehaviour {
         {
             grounded = false;
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (childColliders[1].name == "AttackBox")
+        {
+            if(other.name == "HitBox")
+            {
+                other.transform.parent.GetComponent<Actor>().health -= 10;
+            }
+            Debug.Log(other.name);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+
     }
 }
