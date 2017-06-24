@@ -71,7 +71,7 @@ public class MovementController : MonoBehaviour {
         //Debug.Log(collision.collider.name);
         if (collision.collider.name == "Floor")
         {
-            grounded = false;
+            grounded = false;   
         }
     }
 }
