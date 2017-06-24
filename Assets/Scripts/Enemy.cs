@@ -17,6 +17,5 @@ public class Enemy : Actor {
         base.Start();
 		
 	}
-
     
 }
