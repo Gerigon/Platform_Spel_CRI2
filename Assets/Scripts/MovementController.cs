@@ -8,20 +8,26 @@ public class MovementController : MonoBehaviour {
     public Actor _owner;
     private bool grounded;
     private Rigidbody rigidBody;
-    private BoxCollider attackBox;
-    private List<BoxCollider> childColliders;
+    private List<BoxCollider> hitColliders;
+    private List<BoxCollider> attackColliders;
     
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
-        attackBox = transform.GetChild(1).GetComponent<BoxCollider>();
-        childColliders = new List<BoxCollider>();
+        hitColliders = new List<BoxCollider>();
+        attackColliders = new List<BoxCollider>();
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            childColliders.Add( transform.GetChild(i).GetComponent<BoxCollider>() );
-            Debug.Log(childColliders[i].name);
+            if (transform.GetChild(i).name.Contains("AttackBox"))
+            {
+                attackColliders.Add(transform.GetChild(i).GetComponent<BoxCollider>());
+            }
+            else if(transform.GetChild(i).name.Contains("HitBox"))
+            {
+                hitColliders.Add(transform.GetChild(i).GetComponent<BoxCollider>());
+            }
         }
     }
 	
@@ -62,7 +68,10 @@ public class MovementController : MonoBehaviour {
 
     public void Attack()
     {
-        attackBox.enabled = !attackBox.enabled;
+        for (int i = 0; i < attackColliders.Count; i++)
+        {
+            attackColliders[i].enabled = !attackColliders[i].enabled;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -83,13 +92,9 @@ public class MovementController : MonoBehaviour {
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (childColliders[1].name == "AttackBox")
+        if(other.name == "HitBox")
         {
-            if(other.name == "HitBox")
-            {
-                other.transform.parent.GetComponent<Actor>().health -= 10;
-            }
-            Debug.Log(other.name);
+            other.transform.parent.GetComponent<Actor>().health -= 10;
         }
     }
 
