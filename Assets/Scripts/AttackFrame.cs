@@ -8,6 +8,12 @@ public class AttackFrame {
     public float duration;
     public BoxCollider boxCollider;
 
+    public AttackFrame(float Duration, BoxCollider BoxCollider)
+    {
+        duration = Duration;
+        boxCollider = BoxCollider;
+    }
+
 	// Use this for initialization
 	void Start () {
 		
