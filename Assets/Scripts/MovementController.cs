@@ -3,32 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour {
-
-    
+      
     public Actor _owner;
     private bool grounded;
     private Rigidbody rigidBody;
-    private List<BoxCollider> hitColliders;
-    private List<BoxCollider> attackColliders;
-    
+
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
-        hitColliders = new List<BoxCollider>();
-        attackColliders = new List<BoxCollider>();
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).name.Contains("AttackBox"))
-            {
-                attackColliders.Add(transform.GetChild(i).GetComponent<BoxCollider>());
-            }
-            else if(transform.GetChild(i).name.Contains("HitBox"))
-            {
-                hitColliders.Add(transform.GetChild(i).GetComponent<BoxCollider>());
-            }
-        }
+        
     }
 	
 	// Update is called once per frame
@@ -66,14 +50,6 @@ public class MovementController : MonoBehaviour {
         }
     }
 
-    public void Attack()
-    {
-        for (int i = 0; i < attackColliders.Count; i++)
-        {
-            attackColliders[i].enabled = !attackColliders[i].enabled;
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.collider.name);
@@ -96,10 +72,5 @@ public class MovementController : MonoBehaviour {
         {
             other.transform.parent.GetComponent<Actor>().health -= 10;
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-
     }
 }

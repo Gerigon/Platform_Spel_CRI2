@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class AttackFrame {
 
-
+    public string name;
     public float duration;
+    public Vector3 size;
     public BoxCollider boxCollider;
 
-    public AttackFrame(float Duration, BoxCollider BoxCollider)
+    public AttackFrame(string Name, float Duration, Vector3 Size)
     {
+        name = Name;
         duration = Duration;
-        boxCollider = BoxCollider;
+        size = Size;
     }
 
 	// Use this for initialization

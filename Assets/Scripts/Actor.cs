@@ -6,6 +6,7 @@ public class Actor : MonoBehaviour {
 
     public AnimationController animationController;
     public MovementController movementController;
+    public CombatController combatController;
     public float speed;
     public float jumpPower;
     public int health = 100;
@@ -14,10 +15,13 @@ public class Actor : MonoBehaviour {
     protected virtual void Start () {
         animationController = gameObject.AddComponent<AnimationController>();
         animationController._owner = this;
+
         movementController = gameObject.AddComponent<MovementController>();
         movementController._owner = this;
-		
-	}
+
+        combatController = gameObject.AddComponent<CombatController>();
+        combatController._owner = this;
+    }
 
     // Update is called once per frame
     protected virtual void Update () {
