@@ -18,7 +18,7 @@ public class CombatController : MonoBehaviour {
         //Create movelist
         attackFrames = new List<AttackFrame>();
         //Move 1
-        attackFrames.Add(new AttackFrame("Basic_Attack", 4f, new Vector3(2, 2, 2)));
+        attackFrames.Add(new AttackFrame("Basic_Attack", 30f, new Vector3(2, 0, 0), new Vector3(2, 2, 2)));
         //Move 2
         //attackFrames.Add(new AttackFrame("Basic_Attack2", 4f, new Vector3(4, 4, 4)));
 
@@ -46,12 +46,26 @@ public class CombatController : MonoBehaviour {
 
     IEnumerator Execute()
     {
-        yield return new WaitForSeconds(attackFrames[0].duration);
-        attacking = false;
+								float attackDuration = attackFrames[0].duration;
+								for (int j = 0; j < attackDuration; j ++)
+								{
+												RaycastHit[] boxCast;
+												Debug.Log("dsfsd");
+												boxCast = Physics.BoxCastAll(transform.position + attackFrames[0].offset, attackFrames[0].size, Vector3.right);
 
-        for (int i = 0; i < attackFrames[0].duration; i++) {
-			
-        }
+												for (int i = 0; i < boxCast.Length; i++)
+												{
+																Debug.Log("hit " + boxCast[i].collider.transform.name);
+																if (boxCast[i].collider.transform.name == "HitBox" && boxCast[i].collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+																{
+																				Debug.Log(boxCast[i].collider.transform.parent);
+																				boxCast[i].collider.transform.parent.GetComponent<Actor>().health -= 10;
+																}
+												}
+												yield return null;
+								}
+
+        attacking = false;
 
 	}
 
@@ -61,7 +75,8 @@ public class CombatController : MonoBehaviour {
         //Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
 
         if (attacking) {
-            Gizmos.DrawCube(transform.position, attackFrames[0].size);
+												
+            Gizmos.DrawCube(transform.position + attackFrames[0].offset, attackFrames[0].size);
         }
     }
 }
