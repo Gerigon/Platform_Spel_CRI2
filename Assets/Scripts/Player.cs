@@ -11,8 +11,10 @@ public class Player : Actor {
         base.Start();
         speed = 0.05f;
         jumpPower = 5;
+        combatController.attackList = AttackList.playerAttacks;
+        Debug.Log(combatController.attackList);
 
-	}
+    }
 
     // Update is called once per frame
     protected override void Update () {

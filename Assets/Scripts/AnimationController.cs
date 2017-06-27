@@ -8,6 +8,10 @@ public class AnimationController : MonoBehaviour {
     Animator anim;
     SpriteRenderer spriteRenderer;
 
+    public AnimationController(Actor owner)
+    {
+        _owner = owner;
+    }
 
     // Use this for initialization
     void Start () {

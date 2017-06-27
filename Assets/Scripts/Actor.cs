@@ -13,6 +13,8 @@ public class Actor : MonoBehaviour {
 
     // Use this for initialization
     protected virtual void Start () {
+        //animationController = new AnimationController(this);
+
         animationController = gameObject.AddComponent<AnimationController>();
         animationController._owner = this;
 

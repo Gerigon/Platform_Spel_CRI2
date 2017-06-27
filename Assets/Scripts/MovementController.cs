@@ -50,6 +50,13 @@ public class MovementController : MonoBehaviour {
         }
     }
 
+    public void ReceiveImpact(Vector3 impact)
+    {
+        
+        rigidBody.velocity = new Vector3(10, 20, 0);
+        Debug.Log(rigidBody.velocity);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.collider.name);
