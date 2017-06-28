@@ -11,10 +11,18 @@ public class CombatController : MonoBehaviour
     private Vector3 testOffset;
     private Vector3 testSize;
     private IEnumerator coroutine;
+    public BoxCollider attackBox;
 
     private void Start()
     {
-
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).name == "AttackBox")
+            {
+                attackBox = transform.GetChild(i).GetComponent<BoxCollider>();
+                Debug.Log(attackBox);
+            }
+        }
     }
 
     public void Attack()
