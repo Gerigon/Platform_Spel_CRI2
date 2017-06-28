@@ -41,25 +41,31 @@ public class CombatController : MonoBehaviour
             for (int j = 0; j < attackDuration; j++)
             {
                 RaycastHit[] boxCast;
+                Collider[] cols;
                 if (attack.attackFrames[k].size != Vector3.zero)
                 {
-                    boxCast = Physics.BoxCastAll(transform.position + attack.attackFrames[k].offset, attack.attackFrames[k].size, Vector3.right);
+                    //cols = Physics.OverlapBox()
+                    //boxCast = Physics.BoxCastAll(transform.position + attack.attackFrames[k].offset, attack.attackFrames[k].size, this.transform.eulerAngles,Quaternion.identity, 0);
                     testOffset = attack.attackFrames[k].offset;
                     testSize = attack.attackFrames[k].size;
-                    for (int i = 0; i < boxCast.Length; i++)
-                    {
-                        if (boxCast[i].collider.transform.name == "HitBox" && boxCast[i].collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-                        {
-                            Debug.Log(enemiesHit.Count);
-                            if (!enemiesHit.Contains(boxCast[i].collider.transform.parent.GetComponent<Actor>()))
-                            {
-                                Debug.Log(boxCast[i].collider.transform.parent);
-                                boxCast[i].collider.transform.parent.GetComponent<Actor>().movementController.ReceiveImpact(new Vector3(2, -1, 0));
-                                enemiesHit.Add(boxCast[i].collider.transform.parent.GetComponent<Actor>());
-                                boxCast[i].collider.transform.parent.GetComponent<CombatController>().ReceiveDamage(10);
-                            }
-                        }
-                    }
+                    
+                    //for (int i = 0; i < boxCast.Length; i++)
+                    //{
+                    //    if (boxCast[i].collider.transform.name == "HitBox" && boxCast[i].collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                    //    {
+                    //        Debug.DrawLine(transform.position, boxCast[i].point, Color.green);
+                    //        Debug.Break();
+                    //        Debug.Log(boxCast[i].point);
+                    //        Debug.Log(enemiesHit.Count);
+                    //        if (!enemiesHit.Contains(boxCast[i].collider.transform.parent.GetComponent<Actor>()))
+                    //        {
+                    //            Debug.Log(boxCast[i].collider.transform.parent);
+                    //            boxCast[i].collider.transform.parent.GetComponent<Actor>().movementController.ReceiveImpact(new Vector3(2, 3, 0));
+                    //            enemiesHit.Add(boxCast[i].collider.transform.parent.GetComponent<Actor>());
+                    //            boxCast[i].collider.transform.parent.GetComponent<CombatController>().ReceiveDamage(10);
+                    //        }
+                    //    }
+                    //}
                 }
                 yield return null;
             }

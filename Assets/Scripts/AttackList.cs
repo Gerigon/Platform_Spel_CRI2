@@ -7,7 +7,7 @@ public static class AttackList {
     public static List<Attack> playerAttacks = new List<Attack>();
 
     static Attack basic_attack_001 = new Attack("Slash",
-                                new AttackFrame(30),
+                                new AttackFrame(10),
                                 new AttackFrame(30f, new Vector3(2, 0, 0), new Vector3(2, 2, 2)));
     static public void Start()
     {

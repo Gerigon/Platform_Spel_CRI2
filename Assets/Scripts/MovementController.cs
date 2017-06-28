@@ -53,7 +53,7 @@ public class MovementController : MonoBehaviour {
     public void ReceiveImpact(Vector3 impact)
     {
         
-        rigidBody.velocity = new Vector3(10, 20, 0);
+        rigidBody.velocity = impact;
         Debug.Log(rigidBody.velocity);
     }
 
