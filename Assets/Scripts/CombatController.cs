@@ -13,6 +13,7 @@ public class CombatController : MonoBehaviour
     private IEnumerator coroutine;
     public BoxCollider attackBox;
     public int hittable;
+    public bool facingRight = true;
 
     private void Start()
     {
@@ -31,7 +32,7 @@ public class CombatController : MonoBehaviour
         if (!attacking)
         {
             attacking = true;
-            coroutine = Execute(attackList[0]);
+            coroutine = Execute(attackList[1]);
             StartCoroutine(coroutine);
         }
     }
@@ -41,6 +42,17 @@ public class CombatController : MonoBehaviour
         _owner.health -= value;
     }
 
+    public void flipFacing()
+    {
+        facingRight = !facingRight;
+    }
+
+    /// <summary>
+    /// Executes an attack consisting of 1 or multiple attack frames
+    /// attackFrames are stored in an attack
+    /// </summary>
+    /// <param name="attack"></param>
+    /// <returns></returns>
     IEnumerator Execute(Attack attack)
     {
         for (int k = 0; k < attack.attackFrames.Count; k++)
@@ -60,7 +72,7 @@ public class CombatController : MonoBehaviour
                         if (c.transform.name == "HitBox" && !enemiesHit.Contains(c.transform.parent.GetComponent<Actor>()))
                         {
                             c.transform.parent.GetComponent<Actor>().movementController.ReceiveImpact(attack.attackFrames[k].knockBack);
-                            c.transform.parent.GetComponent<CombatController>().ReceiveDamage(10);
+                            c.transform.parent.GetComponent<CombatController>().ReceiveDamage(attack.attackFrames[k].damage);
                             enemiesHit.Add(c.transform.parent.GetComponent<Actor>());
                         }
                     }
@@ -68,8 +80,6 @@ public class CombatController : MonoBehaviour
                 yield return null;
             }
             enemiesHit.Clear();
-            testOffset = Vector3.zero;
-            testSize = Vector3.zero;
         }
         attacking = false;
     }
