@@ -83,7 +83,7 @@ public class CombatController : MonoBehaviour
         }
         attacking = false;
     }
-
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 0, 0, 0.5F);

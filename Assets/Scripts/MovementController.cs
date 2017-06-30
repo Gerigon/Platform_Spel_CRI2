@@ -72,6 +72,12 @@ public class MovementController : MonoBehaviour {
         {
             grounded = true;
         }
+        if (name == "HitBox" && transform.parent.name.Contains("Player"))
+        {
+            Debug.Log("Collision Damage");
+            ReceiveImpact(new Vector3(1 * _owner.combatController.facingRight, 1, 0));
+            _owner.combatController.ReceiveDamage(5);
+        }
     }
     private void OnCollisionExit(Collision collision)
     {
