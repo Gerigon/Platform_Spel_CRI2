@@ -20,6 +20,7 @@ public class Player : Actor {
     // Update is called once per frame
     protected override void Update () {
         base.Update();
+        GameManager.playerPos = transform.position;
         if (Input.GetKey(KeyCode.W))
         {
             movementController.Move(0,speed);

@@ -23,6 +23,7 @@ public class Actor : MonoBehaviour {
 
         combatController = gameObject.AddComponent<CombatController>();
         combatController._owner = this;
+
     }
 
     // Update is called once per frame

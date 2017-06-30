@@ -42,6 +42,12 @@ public class MovementController : MonoBehaviour {
         }
         
     }
+
+    public void MoveTo(Vector3 target)
+    {
+        float step = (_owner.speed * 10) * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target, step);
+    }
     public void Jump()
     {
         
@@ -62,7 +68,7 @@ public class MovementController : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.collider.name);
-        if (collision.collider.name=="Floor")
+        if (collision.collider.name.Contains("Floor"))
         {
             grounded = true;
         }
@@ -70,7 +76,7 @@ public class MovementController : MonoBehaviour {
     private void OnCollisionExit(Collision collision)
     {
         //Debug.Log(collision.collider.name);
-        if (collision.collider.name == "Floor")
+        if (collision.collider.name.Contains("Floor"))
         {
             grounded = false;
         }
