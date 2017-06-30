@@ -13,7 +13,7 @@ public class CombatController : MonoBehaviour
     private IEnumerator coroutine;
     public BoxCollider attackBox;
     public int hittable;
-    public bool facingRight = true;
+    public int facingRight = 1;
 
     private void Start()
     {
@@ -32,7 +32,7 @@ public class CombatController : MonoBehaviour
         if (!attacking)
         {
             attacking = true;
-            coroutine = Execute(attackList[1]);
+            coroutine = Execute(attackList[0]);
             StartCoroutine(coroutine);
         }
     }
@@ -42,9 +42,9 @@ public class CombatController : MonoBehaviour
         _owner.health -= value;
     }
 
-    public void flipFacing()
+    public void flipFacing(int value)
     {
-        facingRight = !facingRight;
+        facingRight = value;
     }
 
     /// <summary>
@@ -64,14 +64,14 @@ public class CombatController : MonoBehaviour
                 if (attack.attackFrames[k].size != Vector3.zero)
                 {
                     Collider[] cols;
-                    attackBox.transform.position = transform.position + attack.attackFrames[k].offset;
+                    attackBox.transform.position = transform.position + (new Vector3(attack.attackFrames[k].offset.x*facingRight, attack.attackFrames[k].offset.y, attack.attackFrames[k].offset.z));
                     attackBox.size = attack.attackFrames[k].size;
                     cols = Physics.OverlapBox(attackBox.bounds.center, attackBox.bounds.extents, attackBox.transform.rotation, hittable);
                     foreach (Collider c in cols)
                     {
                         if (c.transform.name == "HitBox" && !enemiesHit.Contains(c.transform.parent.GetComponent<Actor>()))
                         {
-                            c.transform.parent.GetComponent<Actor>().movementController.ReceiveImpact(attack.attackFrames[k].knockBack);
+                            c.transform.parent.GetComponent<Actor>().movementController.ReceiveImpact(new Vector3(attack.attackFrames[k].knockBack.x*facingRight, attack.attackFrames[k].knockBack.y, attack.attackFrames[k].knockBack.z));
                             c.transform.parent.GetComponent<CombatController>().ReceiveDamage(attack.attackFrames[k].damage);
                             enemiesHit.Add(c.transform.parent.GetComponent<Actor>());
                         }

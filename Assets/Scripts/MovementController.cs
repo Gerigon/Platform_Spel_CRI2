@@ -30,12 +30,14 @@ public class MovementController : MonoBehaviour {
                 break;
             case 1:
                 transform.Translate(new Vector3(1, 0, 0) * _owner.speed, Space.World);
+                _owner.combatController.flipFacing(1);
                 break;
             case 2:
                  transform.Translate(new Vector3(0, 0, -0.6f) * _owner.speed, Space.World);
                 break;
             case 3:
                 transform.Translate(new Vector3(-1, 0, 0) * _owner.speed, Space.World);
+                _owner.combatController.flipFacing(-1);
                 break;
         }
         
