@@ -72,10 +72,11 @@ public class MovementController : MonoBehaviour {
         {
             grounded = true;
         }
-        if (name == "HitBox" && transform.parent.name.Contains("Player"))
+        Debug.Log("owner = "+_owner.name+" Layer = "+collision.collider.gameObject.layer);
+        if (_owner.name == "Player" && collision.collider.gameObject.layer == 9)
         {
             Debug.Log("Collision Damage");
-            ReceiveImpact(new Vector3(1 * _owner.combatController.facingRight, 1, 0));
+            ReceiveImpact(new Vector3(-2 * _owner.combatController.facingRight, 2, 0));
             _owner.combatController.ReceiveDamage(5);
         }
     }
@@ -91,7 +92,7 @@ public class MovementController : MonoBehaviour {
     {
         if(other.name == "HitBox")
         {
-            other.transform.parent.GetComponent<Actor>().health -= 10;
+            //other.transform.parent.GetComponent<Actor>().health -= 10;
         }
     }
 }
