@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class StateController : MonoBehaviour {
 
-    Actor _owner;
-    State previousState;
-    State currentState;
+    public Actor _owner;
+    public State previousState;
+    public State currentState;
 
 	
 
-    void NewState(State state)
+    public void NewState(State state)
     {
-        if (state != previousState)
+        if (state != previousState || previousState == null)
         {
             if (currentState != null)
-                currentState.EndState(_owner);
+                currentState.EndState();
             previousState = currentState;
             currentState = state;
             currentState.EnterState(_owner);
@@ -23,6 +23,6 @@ public class StateController : MonoBehaviour {
     }
     private void Update()
     {
-        currentState.ExecuteState(_owner);
+        currentState.ExecuteState();
     }
 }
