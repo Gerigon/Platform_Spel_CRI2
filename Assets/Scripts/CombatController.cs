@@ -40,9 +40,14 @@ public class CombatController : MonoBehaviour
     public void ReceiveDamage(int value)
     {
         _owner.health -= value;
+        if (_owner.name == "Player")
+        {
+            GameManager.gui_Health.TakeDamage(value);
+        }
+
     }
 
-    public void flipFacing(int value)
+    public void FlipFacing(int value)
     {
         facingRight = value;
     }

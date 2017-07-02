@@ -30,14 +30,14 @@ public class MovementController : MonoBehaviour {
                 break;
             case 1:
                 transform.Translate(new Vector3(1, 0, 0) * _owner.speed, Space.World);
-                _owner.combatController.flipFacing(1);
+                _owner.combatController.FlipFacing(1);
                 break;
             case 2:
                  transform.Translate(new Vector3(0, 0, -0.6f) * _owner.speed, Space.World);
                 break;
             case 3:
                 transform.Translate(new Vector3(-1, 0, 0) * _owner.speed, Space.World);
-                _owner.combatController.flipFacing(-1);
+                _owner.combatController.FlipFacing(-1);
                 break;
         }
         
@@ -77,7 +77,7 @@ public class MovementController : MonoBehaviour {
         {
             Debug.Log("Collision Damage");
             ReceiveImpact(new Vector3(-2 * _owner.combatController.facingRight, 2, 0));
-            _owner.combatController.ReceiveDamage(5);
+            _owner.combatController.ReceiveDamage(1);
         }
     }
     private void OnCollisionExit(Collision collision)

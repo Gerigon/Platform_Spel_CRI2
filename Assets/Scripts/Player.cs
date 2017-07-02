@@ -11,6 +11,7 @@ public class Player : Actor {
         base.Start();
         speed = 0.05f;
         jumpPower = 5;
+        health = 6;
         combatController.attackList = AttackList.playerAttacks;
         combatController.hittable = 1 << 9;
         Debug.Log(combatController.attackList);
