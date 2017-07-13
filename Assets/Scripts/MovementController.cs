@@ -72,7 +72,6 @@ public class MovementController : MonoBehaviour {
         {
             grounded = true;
         }
-        Debug.Log("owner = "+_owner.name+" Layer = "+collision.collider.gameObject.layer);
         if (_owner.name == "Player" && collision.collider.gameObject.layer == 9)
         {
             Debug.Log("Collision Damage");

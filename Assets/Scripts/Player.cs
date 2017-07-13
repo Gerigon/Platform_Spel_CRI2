@@ -14,7 +14,7 @@ public class Player : Actor {
         health = 7;
         combatController.attackList = AttackList.playerAttacks;
         combatController.hittable = 1 << 9;
-        Debug.Log(combatController.attackList);
+
 
     }
 

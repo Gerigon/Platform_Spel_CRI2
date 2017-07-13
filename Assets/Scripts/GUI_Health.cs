@@ -17,7 +17,7 @@ public class GUI_Health : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-								curHealth = GameManager.instance.player.GetComponent<Player>().health;
+		curHealth = GameManager.instance.player.GetComponent<Player>().health;
         maxHealth = maxHeartAmount * healthPerHeart;
         SetHealth();
 
@@ -26,8 +26,7 @@ public class GUI_Health : MonoBehaviour {
     void SetHealth()
     {
         for (int i = 0; i < maxHeartAmount; i++)
-        {
-												Debug.Log(Mathf.Ceil((float)curHealth/2));
+        { 
             if (Mathf.Ceil((float)curHealth / 2) <= i)
             {
                 heartImages[i].enabled = false;

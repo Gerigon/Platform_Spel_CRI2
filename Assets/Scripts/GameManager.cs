@@ -4,38 +4,41 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-				public static GameManager instance = null;
-				public GUI_Health gui_Health;
-				public GameObject player;
+    public static GameManager instance = null;
+    public GUI_Health gui_Health;
+    public GameObject player;
+    public LevelGenerator levelGenerator;
 
 
-				private void Awake()
-				{
-								if (instance == null)
-												instance = this;
-								else if (instance != this)
-												Destroy(gameObject);
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
 
-								DontDestroyOnLoad(gameObject);
-								InitGame();
-				}
+        DontDestroyOnLoad(gameObject);
+        InitGame();
+    }
 
-				// Use this for initialization
-				void Start()
-				{
+    // Use this for initialization
+    void Start()
+    {
 
-				}
+    }
 
-				void InitGame()
-				{
-								AttackList.Start();
-								gui_Health = GetComponent<GUI_Health>();
-								gui_Health.player = player.GetComponent<Player>();
-				}
+    void InitGame()
+    {
+        AttackList.Start();
+        gui_Health = GetComponent<GUI_Health>();
+        gui_Health.player = player.GetComponent<Player>();
+        levelGenerator = GetComponent<LevelGenerator>();
+        levelGenerator.GenerateLevel(0, 3);
+    }
 
-				// Update is called once per frame
-				void Update()
-				{
+    // Update is called once per frame
+    void Update()
+    {
 
-				}
+    }
 }

@@ -16,7 +16,7 @@ public static class AttackList {
                                 new AttackFrame(30f, new Vector3(0.5f, 0, 0), new Vector3(30F, 1, 30F), new Vector3(70, 0, 0), 1));
     static public void Start()
     {
-        Debug.Log("I serve a lot of chickens and I'm innocent");
+        //Debug.Log("I serve a lot of chickens and I'm innocent");
         playerAttacks.Add(basic_attack_001);
         playerAttacks.Add(basic_attack_002);
     }

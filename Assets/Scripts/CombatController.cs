@@ -22,7 +22,6 @@ public class CombatController : MonoBehaviour
             if (transform.GetChild(i).name == "AttackBox")
             {
                 attackBox = transform.GetChild(i).GetComponent<BoxCollider>();
-                Debug.Log(attackBox);
             }
         }
     }
