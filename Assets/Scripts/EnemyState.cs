@@ -16,7 +16,7 @@ public class EnemyState : State {
     }
     public override void ExecuteState()
     {
-        Debug.Log("Executing State");
+
         if (Vector3.Distance(_owner.transform.position,GameManager.playerPos)<10)
         {
             _owner.movementController.MoveTo(GameManager.playerPos);
