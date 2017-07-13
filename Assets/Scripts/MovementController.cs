@@ -81,11 +81,4 @@ public class MovementController : MonoBehaviour {
             grounded = false;
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.name == "HitBox")
-        {
-            other.transform.parent.GetComponent<Actor>().health -= 10;
-        }
-    }
 }
