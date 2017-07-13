@@ -17,9 +17,9 @@ public class EnemyState : State {
     public override void ExecuteState()
     {
 
-        if (Vector3.Distance(_owner.transform.position,GameManager.playerPos)<10)
+        if (Vector3.Distance(_owner.transform.position,GameManager.instance.player.transform.position)<10)
         {
-            _owner.movementController.MoveTo(GameManager.playerPos);
+            _owner.movementController.MoveTo(GameManager.instance.player.transform.position);
         }
     }
     public override void EndState()

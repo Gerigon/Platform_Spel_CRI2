@@ -42,7 +42,7 @@ public class CombatController : MonoBehaviour
         _owner.health -= value;
         if (_owner.name == "Player")
         {
-            GameManager.gui_Health.TakeDamage(value);
+            GameManager.instance.gui_Health.TakeDamage(value);
         }
 
     }

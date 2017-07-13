@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class GUI_Health : MonoBehaviour {
 
     private int maxHeartAmount = 5;
-    public int startHearts = 3;
     public int curHealth;
     private int maxHealth;
     private int healthPerHeart = 2;
 
+				public Player player;
     public Image[] heartImages;
     public Sprite[] heartSprites;
 
 	// Use this for initialization
 	void Start ()
     {
-        curHealth = startHearts * healthPerHeart;
+								curHealth = GameManager.instance.player.GetComponent<Player>().health;
         maxHealth = maxHeartAmount * healthPerHeart;
         SetHealth();
 
@@ -27,7 +27,8 @@ public class GUI_Health : MonoBehaviour {
     {
         for (int i = 0; i < maxHeartAmount; i++)
         {
-            if (startHearts <= i)
+												Debug.Log(Mathf.Ceil((float)curHealth/2));
+            if (Mathf.Ceil((float)curHealth / 2) <= i)
             {
                 heartImages[i].enabled = false;
             }
@@ -71,21 +72,10 @@ public class GUI_Health : MonoBehaviour {
 
     public void TakeDamage(int value)
     {
-        curHealth -= value;
-        curHealth = Mathf.Clamp(curHealth, 0, startHearts * healthPerHeart);
+        curHealth = player.health;
         UpdateHearts();
     }
 
-    public void AddHeartContainer()
-    {
-        startHearts++;
-        startHearts = Mathf.Clamp(startHearts, 0, maxHeartAmount);
-
-        curHealth = startHearts * healthPerHeart;
-        maxHealth = maxHeartAmount * healthPerHeart;
-
-        SetHealth();
-    }
 
 	// Update is called once per frame
 	void Update () {

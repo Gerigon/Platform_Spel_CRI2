@@ -11,7 +11,7 @@ public class Player : Actor {
         base.Start();
         speed = 0.05f;
         jumpPower = 5;
-        health = 6;
+        health = 7;
         combatController.attackList = AttackList.playerAttacks;
         combatController.hittable = 1 << 9;
         Debug.Log(combatController.attackList);
@@ -21,7 +21,6 @@ public class Player : Actor {
     // Update is called once per frame
     protected override void Update () {
         base.Update();
-        GameManager.playerPos = transform.position;
         if (Input.GetKey(KeyCode.W))
         {
             movementController.Move(0,speed);

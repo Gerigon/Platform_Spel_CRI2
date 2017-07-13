@@ -4,16 +4,38 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static Vector3 playerPos;
-    public static GUI_Health gui_Health;
-	// Use this for initialization
-	void Start () {
-        AttackList.Start();
-        gui_Health = GetComponent<GUI_Health>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+				public static GameManager instance = null;
+				public GUI_Health gui_Health;
+				public GameObject player;
+
+
+				private void Awake()
+				{
+								if (instance == null)
+												instance = this;
+								else if (instance != this)
+												Destroy(gameObject);
+
+								DontDestroyOnLoad(gameObject);
+								InitGame();
+				}
+
+				// Use this for initialization
+				void Start()
+				{
+
+				}
+
+				void InitGame()
+				{
+								AttackList.Start();
+								gui_Health = GetComponent<GUI_Health>();
+								gui_Health.player = player.GetComponent<Player>();
+				}
+
+				// Update is called once per frame
+				void Update()
+				{
+
+				}
 }

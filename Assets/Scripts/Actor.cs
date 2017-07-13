@@ -9,7 +9,8 @@ public class Actor : MonoBehaviour {
     public CombatController combatController;
     public float speed;
     public float jumpPower;
-    public int health = 10;
+				[HideInInspector]
+    public int health;
 
     // Use this for initialization
     protected virtual void Start () {
