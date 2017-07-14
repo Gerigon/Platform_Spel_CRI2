@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        levelGenerator.GenerateLevel(0, 3);
     }
 
     void InitGame()
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         gui_Health = GetComponent<GUI_Health>();
         gui_Health.player = player.GetComponent<Player>();
         levelGenerator = GetComponent<LevelGenerator>();
-        levelGenerator.GenerateLevel(0, 3);
+        
     }
 
     // Update is called once per frame

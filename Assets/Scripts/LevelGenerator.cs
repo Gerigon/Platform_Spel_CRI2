@@ -28,7 +28,6 @@ public class LevelGenerator : MonoBehaviour {
     public void GenerateLevel(int biome, int numberOfRooms)
     {
 
-        Debug.Log(biomeList[0]);
         switch (biome)
         {
             case 0:
