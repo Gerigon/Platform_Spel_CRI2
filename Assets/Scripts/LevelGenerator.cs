@@ -31,13 +31,25 @@ public class LevelGenerator : MonoBehaviour {
         switch (biome)
         {
             case 0:
-                lastRoomPos = GenerateRoom(startRooms[biome],Vector3.zero,2);
+                int[] randomDoors = new int[2];
+                randomDoors[0] = Random.Range(0, 5);
+                randomDoors[1] = Random.Range(0, 5);
+                while (randomDoors[0] == randomDoors[1])
+                    randomDoors[1] = Random.Range(0, 5);
+                List<Room> Rooms = new List<Room>();
+                Rooms.Add(new Room(biomeList[0][0], Vector3.zero));
+                //if (Random.Range(0, 9) > 4)
+                //    lastRoomPos = GenerateRoom(startRooms[biome],Vector3.zero,randomDoors[0],randomDoors[1]);
+                //else
+                //    lastRoomPos = GenerateRoom(startRooms[biome], Vector3.zero, randomDoors[0]);
 
-                for (int i = 0; i < numberOfRooms; i++)
-                {
-                    Debug.Log(lastRoomPos);
-                    lastRoomPos = GenerateRoom(biomeList[0][i], lastRoomPos + new Vector3(21, 0, 0),2,3);
-                }
+
+
+                //for (int i = 0; i < numberOfRooms; i++)
+                //{
+                //    Debug.Log(lastRoomPos);
+                //    lastRoomPos = GenerateRoom(biomeList[0][i], lastRoomPos + new Vector3(21, 0, 0),2,3);
+                //}
                 break;
         }
     }
