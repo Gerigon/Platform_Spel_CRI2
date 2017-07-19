@@ -17,6 +17,12 @@ public class Room : MonoBehaviour
         _room = Instantiate(room, position, Quaternion.identity) as GameObject;
         _room.AddComponent<Room>();
     }
+    public Room(GameObject room, Vector3 position, string directionFrom)
+    {
+        _room = Instantiate(room, position, Quaternion.identity) as GameObject;
+        _room.AddComponent<Room>();
+        CreateDoors(directionFrom);
+    }
     private void Start()
     {
         northDoor = new List<GameObject>();
@@ -25,40 +31,81 @@ public class Room : MonoBehaviour
         eastDoor = new List<GameObject>();
         _room = transform.gameObject;
         roomScript = _room.GetComponent<Room>();
-        Debug.Log(_room);
         for (int i = 0; i < _room.transform.GetChild(0).GetChild(1).childCount; i++)
         {
-            Debug.Log(_room.transform.GetChild(0).GetChild(1).GetChild(i).name);
             if (_room.transform.GetChild(0).GetChild(1).GetChild(i).name.Contains("N"))
             {
-                Debug.Log("looping");
                 roomScript.northDoor.Add(_room.transform.GetChild(0).GetChild(1).GetChild(i).gameObject);
                 continue;
             }
             else if (_room.transform.GetChild(0).GetChild(1).GetChild(i).name.Contains("S"))
             {
-                Debug.Log("looping");
-                Debug.Log(roomScript.southDoor);
                 roomScript.southDoor.Add(_room.transform.GetChild(0).GetChild(1).GetChild(i).gameObject);
                 continue;
             }
             else if (_room.transform.GetChild(0).GetChild(1).GetChild(i).name.Contains("E"))
             {
-                Debug.Log("looping");
                 roomScript.eastDoor.Add(_room.transform.GetChild(0).GetChild(1).GetChild(i).gameObject);
                 continue;
             }
             else if (_room.transform.GetChild(0).GetChild(1).GetChild(i).name.Contains("W"))
             {
-                Debug.Log("looping");
                 roomScript.westDoor.Add(_room.transform.GetChild(0).GetChild(1).GetChild(i).gameObject);
                 continue;
             }
         }
+        CreateDoors();
     }
-    // Update is called once per frame
-    void Update()
-    {
 
+    private void CreateDoors()
+    {
+        int[] randomDoors = new int[2];
+        randomDoors[0] = Random.Range(0, 5);
+        randomDoors[1] = Random.Range(0, 5);
+        while (randomDoors[0] == randomDoors[1])
+            randomDoors[1] = Random.Range(0, 5);
+        if (Random.Range(0, 9) > 4)
+        {
+            transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject.SetActive(true);
+            transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).gameObject.SetActive(true);
+        }
+        else
+        {
+            transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject.SetActive(true);
+        }
+    }
+    private void CreateDoors(string directionFrom)
+    {
+        switch (directionFrom)
+        {
+            case "North":
+                southDoor[Random.Range(0, southDoor.Count - 1)].SetActive(true);
+                break;
+        }
+    }
+    public string GetDoor()
+    {
+        Debug.Log(transform);
+        return "Hallo";
+        for (int i = 0; i < transform.GetChild(0).GetChild(1).childCount; i++)
+        {
+            if (northDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+            {
+                return "North";
+            }
+            else if (southDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+            {
+                return "South";
+            }
+            else if (westDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+            {
+                return "West";
+            }
+            else if (eastDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+            {
+                return "East";
+            }
+        }
+        return null;
     }
 }
