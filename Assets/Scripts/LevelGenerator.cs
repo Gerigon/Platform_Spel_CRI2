@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour {
+public class LevelGenerator : MonoBehaviour
+{
 
     public static LevelGenerator instance;
     public List<GameObject> startRooms = new List<GameObject>();
@@ -21,7 +22,7 @@ public class LevelGenerator : MonoBehaviour {
         biomeList.Add(new List<GameObject>());
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (i >= 0 && i<4)
+            if (i >= 0 && i < 4)
             {
                 biomeList[0].Add(roomList[i]);
             }
@@ -34,15 +35,11 @@ public class LevelGenerator : MonoBehaviour {
         {
             case 0:
                 Rooms.Add(CreateRoom(Vector3.zero));
-                
-                for (int i = 0; i < numberOfRooms-1; i++)
+                for (int i = 0; i < numberOfRooms; i++)
                 {
-                    if (Rooms[Rooms.Count-1].GetDoor() == "North")
-                    {
-                        Debug.Log(Rooms.Count);
-                        Rooms.Add(CreateRoom(Rooms[Rooms.Count-1].transform.position + new Vector3(0,0,5),"North"));
-                    }
+
                 }
+
                 break;
         }
     }
@@ -64,21 +61,19 @@ public class LevelGenerator : MonoBehaviour {
 
     public void RegisterDoor(Vector3 _position, string _fromDirection)
     {
-        if (doorPositions.Count != 0)
-        {
-            doorPositions[doorPositions.Count - 1].position = _position;
-            doorPositions[doorPositions.Count - 1].directions = _fromDirection;
-        }
-        else
-        {
-            doorPositions[0].position = _position;
-            doorPositions[0].directions = _fromDirection;
-        }
+        doorPositions.Add(new DoorPositions(_position, _fromDirection));
     }
 
+    [System.Serializable]
     public class DoorPositions
     {
-        public string directions;
         public Vector3 position;
+        public string directions;
+
+        public DoorPositions(Vector3 __position, string __fromDirection)
+        {
+            position = __position;
+            directions = __fromDirection;
+        }
     }
 }

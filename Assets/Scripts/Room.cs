@@ -8,6 +8,7 @@ public class Room : MonoBehaviour
     public List<GameObject> westDoor;
     public List<GameObject> southDoor;
     public List<GameObject> eastDoor;
+    public Vector3 enterPosition;
 
     private Room roomScript;
 
@@ -97,71 +98,123 @@ public class Room : MonoBehaviour
         if (Random.Range(0, 9) > 4)
         {
             transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject.SetActive(true);
-            
+
+            if (northDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "North");
+            }
+            else if (southDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "South");
+            }
+            else if (westDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "West");
+            }
+            else if (eastDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "East");
+            }
+
             transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).gameObject.SetActive(true);
+            if (northDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).transform.position, "North");
+            }
+            else if (southDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).transform.position, "South");
+            }
+            else if (westDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).transform.position, "West");
+            }
+            else if (eastDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[1]).transform.position, "East");
+            }
         }
         else
         {
             transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject.SetActive(true);
+            if (northDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "North");
+            }
+            else if (southDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "South");
+            }
+            else if (westDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "West");
+            }
+            else if (eastDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).gameObject))
+            {
+                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(randomDoors[0]).transform.position, "East");
+            }
         }
 
         Debug.Log("Deuren zijn geactiveerd");
     }
     public void CreateDoors(string directionFrom)
     {
-        Vector3 doorPosition = Vector3.zero;
         int randomNum;
         switch (directionFrom)
         {
             case "North":
                 randomNum = Random.Range(0, southDoor.Count - 1);
                 southDoor[randomNum].SetActive(true);
+                enterPosition = southDoor[randomNum].transform.position;
                 break;
             case "West":
-                randomNum = Random.Range(0, southDoor.Count - 1);
-                southDoor[randomNum].SetActive(true);
+                randomNum = Random.Range(0, eastDoor.Count - 1);
+                eastDoor[randomNum].SetActive(true);
+                enterPosition = eastDoor[randomNum].transform.position;
                 break;
             case "East":
-                randomNum = Random.Range(0, southDoor.Count - 1);
-                southDoor[randomNum].SetActive(true);
+                randomNum = Random.Range(0, westDoor.Count - 1);
+                westDoor[randomNum].SetActive(true);
+                enterPosition = westDoor[randomNum].transform.position;
                 break;
             case "South":
-                randomNum = Random.Range(0, southDoor.Count - 1);
-                southDoor[randomNum].SetActive(true);
+                randomNum = Random.Range(0, northDoor.Count - 1);
+                northDoor[randomNum].SetActive(true);
+                enterPosition = northDoor[randomNum].transform.position;
                 break;
         }
         CreateDoors();
     }
-    public string GetDoor()
-    {
-        Debug.Log("deuren worden gecontroleerd");
-        for (int i = 0; i < transform.GetChild(0).GetChild(1).childCount; i++)
-        {
-            Debug.Log("is active: " + transform.GetChild(0).GetChild(1).GetChild(i).gameObject.activeSelf);
-            if (transform.GetChild(0).GetChild(1).GetChild(i).gameObject.activeSelf)
-            {
-                if (northDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
-                {
-                    LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "North");
-                    return "North";
-                }
-                else if (southDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
-                {
-                    LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "South");
-                    return "South";
-                }
-                else if (westDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
-                {
-                    LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "West");
-                    return "West";
-                }
-                else if (eastDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
-                {
-                    LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "East");
-                    return "East";
-                }
-            }
-        }
-        return null;
-    }
+    //public string GetDoor()
+    //{
+    //    Debug.Log("deuren worden gecontroleerd");
+    //    for (int i = 0; i < transform.GetChild(0).GetChild(1).childCount; i++)
+    //    {
+    //        Debug.Log("is active: " + transform.GetChild(0).GetChild(1).GetChild(i).gameObject.activeSelf);
+    //        if (transform.GetChild(0).GetChild(1).GetChild(i).gameObject.activeSelf)
+    //        {
+    //            if (northDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+    //            {
+    //                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "North");
+    //                return "North";
+    //            }
+    //            else if (southDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+    //            {
+    //                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "South");
+    //                return "South";
+    //            }
+    //            else if (westDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+    //            {
+    //                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "West");
+    //                return "West";
+    //            }
+    //            else if (eastDoor.Contains(transform.GetChild(0).GetChild(1).GetChild(i).gameObject))
+    //            {
+    //                LevelGenerator.instance.RegisterDoor(transform.GetChild(0).GetChild(1).GetChild(i).transform.position, "East");
+    //                return "East";
+    //            }
+    //        }
+    //    }
+    //    return null;
+    //}
 }
