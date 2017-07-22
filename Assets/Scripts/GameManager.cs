@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-        AttackList.Start();
         gui_Health = GetComponent<GUI_Health>();
         gui_Health.player = player.GetComponent<Player>();
         

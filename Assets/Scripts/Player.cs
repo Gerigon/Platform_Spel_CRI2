@@ -12,8 +12,6 @@ public class Player : Actor {
         speed = 0.05f;
         jumpPower = 5;
         health = 7;
-        combatController.attackList = AttackList.playerAttacks;
-        combatController.hittable = 1 << 9;
 
 
     }
@@ -43,7 +41,6 @@ public class Player : Actor {
         }
         if (Input.GetMouseButtonDown(0))
         {
-            combatController.Attack();
         }
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Actor : MonoBehaviour {
 
     public MovementController movementController;
-    public CombatController combatController;
     public float speed;
     public float jumpPower;
 				[HideInInspector]
@@ -17,9 +16,6 @@ public class Actor : MonoBehaviour {
 
         movementController = gameObject.AddComponent<MovementController>();
         movementController._owner = this;
-
-        combatController = gameObject.AddComponent<CombatController>();
-        combatController._owner = this;
 
     }
 
