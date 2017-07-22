@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public GUI_Health gui_Health;
     public GameObject player;
-    public LevelGenerator levelGenerator;
 
 
     private void Awake()
@@ -24,7 +23,6 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        levelGenerator.GenerateLevel(0, 3);
     }
 
     void InitGame()
@@ -32,7 +30,6 @@ public class GameManager : MonoBehaviour
         AttackList.Start();
         gui_Health = GetComponent<GUI_Health>();
         gui_Health.player = player.GetComponent<Player>();
-        levelGenerator = GetComponent<LevelGenerator>();
         
     }
 

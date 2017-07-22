@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour {
 
-    public AnimationController animationController;
     public MovementController movementController;
     public CombatController combatController;
     public float speed;
@@ -15,9 +14,6 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     protected virtual void Start () {
         //animationController = new AnimationController(this);
-
-        animationController = gameObject.AddComponent<AnimationController>();
-        animationController._owner = this;
 
         movementController = gameObject.AddComponent<MovementController>();
         movementController._owner = this;

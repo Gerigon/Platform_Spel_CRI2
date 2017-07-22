@@ -32,12 +32,10 @@ public class Player : Actor {
         if (Input.GetKey(KeyCode.A))
         {
             movementController.Move(3, speed);
-            animationController.setAnimValue(true);
         }
         if (Input.GetKey(KeyCode.D))
         {
             movementController.Move(1, speed);
-            animationController.setAnimValue(false);
         }
         if (Input.GetKey(KeyCode.Space))
         {
@@ -46,7 +44,6 @@ public class Player : Actor {
         if (Input.GetMouseButtonDown(0))
         {
             combatController.Attack();
-            animationController.setAnimValue("Attack");
         }
     }
 }
