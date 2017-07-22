@@ -41,6 +41,7 @@ public class Player : Actor {
         }
         if (Input.GetMouseButtonDown(0))
         {
+												combatController.PerformAttack();
         }
     }
 }

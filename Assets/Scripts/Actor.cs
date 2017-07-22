@@ -5,7 +5,8 @@ using UnityEngine;
 public class Actor : MonoBehaviour {
 
     public MovementController movementController;
-    public float speed;
+				public CombatController combatController;
+				public float speed;
     public float jumpPower;
 				[HideInInspector]
     public int health;
@@ -17,7 +18,9 @@ public class Actor : MonoBehaviour {
         movementController = gameObject.AddComponent<MovementController>();
         movementController._owner = this;
 
-    }
+								combatController = gameObject.AddComponent<CombatController>();
+								combatController._owner = this;
+				}
 
     // Update is called once per frame
     protected virtual void Update () {
