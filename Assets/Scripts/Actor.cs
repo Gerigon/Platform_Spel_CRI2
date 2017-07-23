@@ -5,6 +5,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour {
 
     public MovementController movementController;
+    public AnimationController animationController;
     public float speed;
     public float jumpPower;
 				[HideInInspector]
@@ -17,6 +18,8 @@ public class Actor : MonoBehaviour {
         movementController = gameObject.AddComponent<MovementController>();
         movementController._owner = this;
 
+        animationController = gameObject.AddComponent<AnimationController>();
+        animationController._owner = this;
     }
 
     // Update is called once per frame
