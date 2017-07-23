@@ -15,8 +15,8 @@ public class AnimationController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+       SetAnimationVar(GetAnimationVar("Walking") - 0.05f, "Walking");
+    }
 
 
     public float GetAnimationVar(string paramater)
