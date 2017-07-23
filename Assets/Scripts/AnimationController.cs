@@ -33,21 +33,6 @@ public class AnimationController : MonoBehaviour {
         animator.SetTrigger(paramater);
     }
 
-    public string getCurrentAnimation()
-    {
-        float bestWeight = -1;
-        string playing = "";
-        foreach (AnimationState state in GetComponent<Animation>())
-        {
-            Debug.Log(state.name);
-            if (state.enabled && state.weight > bestWeight)
-            {
-                playing = state.name;
-                bestWeight = state.weight;
-            }
-        }
-        return playing;
-    }
 
     public void SetLastPlayedAnimation (string animationName)
     {

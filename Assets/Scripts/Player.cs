@@ -6,11 +6,12 @@ public class Player : Actor
 {
 
 
-    Ray mouseRay;
-    public Vector3 mousePosition;
+    public InputManager inputManager;
     // Use this for initialization
     protected override void Start()
     {
+        inputManager = gameObject.AddComponent<InputManager>();
+        inputManager._owner = this;
         base.Start();
         speed = 0.5f;
         jumpPower = 5;
@@ -22,6 +23,7 @@ public class Player : Actor
     protected override void Update()
     {
         base.Update();
+<<<<<<< HEAD
         if (Input.GetKey(KeyCode.W))
         {
             movementController.Move(0, speed);
@@ -55,5 +57,8 @@ public class Player : Actor
             mousePosition = hit[i].point;
         }
         movementController.Rotate(mousePosition);
+=======
+        
+>>>>>>> bc49db4548c53f2770d7fab690348a8b9115a2b2
     }
 }
