@@ -17,9 +17,11 @@ public class CombatController : MonoBehaviour
 
 				public void TraverseHierarchy(Transform root)
 				{
-								foreach(Transform child in root) {
-												Debug.Log(child.name);
-												if (child.CompareTag("Weapon"))	{
+								foreach (Transform child in root)
+								{
+												//Debug.Log(child.name);
+												if (child.CompareTag("Weapon"))
+												{
 																attackBox = child.GetComponent<BoxCollider>();
 																Debug.Log(attackBox);
 																break;
@@ -30,7 +32,7 @@ public class CombatController : MonoBehaviour
 
 				public void ReceiveHit()
 				{
-
+								Debug.Log("Je Moeder!!!");
 				}
 
 				public void PerformAttack()
@@ -38,5 +40,13 @@ public class CombatController : MonoBehaviour
 								//animatorcontroler.playanimation
 								attackBox.enabled = true;
 
+				}
+
+				private void OnCollisionEnter(Collision other)
+				{
+								if (other.collider.gameObject.tag == "Hitbox")
+								{
+												other.transform.GetComponent<Actor>().combatController.ReceiveHit();
+								}
 				}
 }

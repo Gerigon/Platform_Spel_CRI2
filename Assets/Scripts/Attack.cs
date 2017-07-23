@@ -7,5 +7,4 @@ public class Attack : MonoBehaviour
 				public string anim;
 				public int damage;
 
-
 }
