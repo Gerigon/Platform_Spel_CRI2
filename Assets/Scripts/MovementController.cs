@@ -20,7 +20,7 @@ public class MovementController : MonoBehaviour {
 	void Update () {
 
         //Debug.Log(grounded);
-        _owner.animationController.SetAnimationVar(_owner.animationController.GetAnimationVar("Walking")-0.05f, "Walking");
+        
     }
 
     public void Move(int dir, float speed)
