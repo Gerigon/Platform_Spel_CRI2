@@ -47,10 +47,17 @@ public class CombatController : MonoBehaviour
     {
         //animatorcontroler.playanimation
         attackBox.enabled = true;
+								
 
     }
+				public void EndAttack()
+				{
+								//animatorcontroler.playanimation
+								attackBox.enabled = false;
 
-    private void OnTriggerEnter(Collider other)
+				}
+
+				private void OnTriggerEnter(Collider other)
     {
 								
         if (other.gameObject.tag == "Hitbox")

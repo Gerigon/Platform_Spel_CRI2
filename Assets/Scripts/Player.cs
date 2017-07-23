@@ -45,7 +45,7 @@ public class Player : Actor
         if (Input.GetMouseButtonDown(0))
         {
             animationController.SetAnimationVar("Attack");
-            combatController.PerformAttack();
+            //combatController.PerformAttack();
         }
         RaycastHit[] hit = Physics.RaycastAll(mouseRay, Mathf.Infinity, 1 << 10);
         mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
