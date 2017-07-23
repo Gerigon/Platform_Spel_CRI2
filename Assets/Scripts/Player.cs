@@ -40,6 +40,7 @@ public class Player : Actor {
         if (Input.GetMouseButtonDown(0))
         {
             animationController.SetAnimationVar("Attack");
+			combatController.PerformAttack();
         }
     }
 }
