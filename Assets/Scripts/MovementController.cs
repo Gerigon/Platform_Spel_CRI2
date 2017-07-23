@@ -44,7 +44,12 @@ public class MovementController : MonoBehaviour {
         
     }
 
-    public void MoveTo(Vector3 target)
+				public void Rotate(Vector3 target)
+				{
+								transform.LookAt(target);
+				}
+
+				public void MoveTo(Vector3 target)
     {
         float step = (_owner.speed * 10) * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, target, step);

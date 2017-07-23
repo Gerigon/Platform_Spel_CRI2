@@ -6,11 +6,13 @@ public class CombatController : MonoBehaviour
 {
     public Actor _owner;
     public BoxCollider attackBox;
+				public Rigidbody rigidbody;
+
 
     // Use this for initialization
     void Start()
     {
-
+								rigidbody = GetComponent<Rigidbody>();
         Debug.Log("looking for weapon hitboxes");
         TraverseHierarchy(transform);
     }
@@ -30,10 +32,16 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void ReceiveHit()
+    public void ReceiveHit(Vector3 enemyPos)
     {
-        Debug.Log("Je Moeder!!!");
-    }
+								Vector3 dir = new Vector3(transform.position.x - enemyPos.x, 5, transform.position.z - enemyPos.z).normalized;
+								float force = 5;
+								rigidbody.AddForce(dir*force , ForceMode.Impulse );
+				}
+
+				public void ReceiveImpact() {
+								
+				}
 
     public void PerformAttack()
     {
@@ -44,9 +52,10 @@ public class CombatController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+								
         if (other.gameObject.tag == "Hitbox")
         {
-            other.transform.GetComponent<Actor>().combatController.ReceiveHit();
+            other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position);
         }
     }
 }
