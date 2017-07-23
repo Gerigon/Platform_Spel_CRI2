@@ -5,10 +5,10 @@ using UnityEngine;
 public class Actor : MonoBehaviour {
 
     public MovementController movementController;
-				public CombatController combatController;
-				public float speed;
+    public AnimationController animationController;
+    public CombatController combatController;
+    public float speed;
     public float jumpPower;
-				[HideInInspector]
     public int health;
 
     // Use this for initialization
@@ -18,9 +18,13 @@ public class Actor : MonoBehaviour {
         movementController = gameObject.AddComponent<MovementController>();
         movementController._owner = this;
 
-								combatController = gameObject.AddComponent<CombatController>();
-								combatController._owner = this;
-				}
+        animationController = gameObject.AddComponent<AnimationController>();
+        animationController._owner = this;
+
+        combatController = gameObject.AddComponent<CombatController>();
+        combatController._owner = this;
+    }
+								
 
     // Update is called once per frame
     protected virtual void Update () {

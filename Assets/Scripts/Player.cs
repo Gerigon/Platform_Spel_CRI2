@@ -12,8 +12,6 @@ public class Player : Actor {
         speed = 0.05f;
         jumpPower = 5;
         health = 7;
-
-
     }
 
     // Update is called once per frame
@@ -41,7 +39,8 @@ public class Player : Actor {
         }
         if (Input.GetMouseButtonDown(0))
         {
-												combatController.PerformAttack();
+            animationController.SetAnimationVar("Attack");
+			combatController.PerformAttack();
         }
     }
 }

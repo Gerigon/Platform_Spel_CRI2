@@ -7,6 +7,7 @@ public class MovementController : MonoBehaviour {
     public Actor _owner;
     private bool grounded;
     private Rigidbody rigidBody;
+    public bool isMoving;
 
 
 	// Use this for initialization
@@ -19,10 +20,12 @@ public class MovementController : MonoBehaviour {
 	void Update () {
 
         //Debug.Log(grounded);
+        _owner.animationController.SetAnimationVar(_owner.animationController.GetAnimationVar("Walking")-0.05f, "Walking");
     }
 
     public void Move(int dir, float speed)
     {
+        _owner.animationController.SetAnimationVar(1, "Walking");
         switch (dir )
         {
             case 0:
