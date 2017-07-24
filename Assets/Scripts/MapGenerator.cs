@@ -97,9 +97,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     if (neighbourX != gridX || neighbourY != gridY)
                     {
-                        Debug.Log(wallCount);
                         wallCount += map[neighbourX, neighbourY];
-                        Debug.Log(wallCount);
                     }
                 }
                 else
