@@ -6,13 +6,13 @@ public class CombatController : MonoBehaviour
 {
     public Actor _owner;
     public BoxCollider attackBox;
-    public Rigidbody rigidbody;
+    public Rigidbody Rigidbody;
 
 
     // Use this for initialization
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        Rigidbody = GetComponent<Rigidbody>();
         Debug.Log("looking for weapon hitboxes");
         TraverseHierarchy(transform);
     }
@@ -36,7 +36,7 @@ public class CombatController : MonoBehaviour
     {
         Vector3 dir = new Vector3(transform.position.x - enemyPos.x, 5, transform.position.z - enemyPos.z).normalized;
         float force = 5;
-        rigidbody.AddForce(dir * force, ForceMode.Impulse);
+        Rigidbody.AddForce(dir * force, ForceMode.Impulse);
     }
 
     public void ReceiveImpact()
@@ -54,7 +54,6 @@ public class CombatController : MonoBehaviour
     {
         attackBox.enabled = false;
     }
-
     private void OnTriggerEnter(Collider other)
     {
 
