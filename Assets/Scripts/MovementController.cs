@@ -49,7 +49,7 @@ public class MovementController : MonoBehaviour
 
     public void Rotate(Vector3 target)
     {
-        transform.LookAt(target);
+        transform.LookAt(new Vector3(target.x,transform.position.y,target.z));
     }
 
     public void MoveTo(Vector3 target)
