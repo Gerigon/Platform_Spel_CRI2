@@ -32,11 +32,19 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void ReceiveHit(Vector3 enemyPos)
+    public void ReceiveHit(Vector3 enemyPos, int Damage)
     {
-        Vector3 dir = new Vector3(transform.position.x - enemyPos.x, 5, transform.position.z - enemyPos.z).normalized;
+        Debug.Log(_owner.name + " is gehit");
+        Vector3 dir = new Vector3(transform.position.x - enemyPos.x, 1, transform.position.z - enemyPos.z).normalized;
         float force = 5;
         Rigidbody.AddForce(dir * force, ForceMode.Impulse);
+
+        _owner.health -= Damage;
+        _owner.animationController.SetAnimationVar("Hit");
+        if (_owner.health <= 0)
+        {
+            Destroy(_owner.gameObject);
+        }
     }
 
     public void ReceiveImpact()
@@ -59,7 +67,7 @@ public class CombatController : MonoBehaviour
 
         if (other.gameObject.tag == "Hitbox")
         {
-            other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position);
+            other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position,1);
         }
     }
 }

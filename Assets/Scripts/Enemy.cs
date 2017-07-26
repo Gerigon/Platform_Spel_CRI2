@@ -12,6 +12,7 @@ public class Enemy : Actor {
         stateController = gameObject.AddComponent<StateController>();
         stateController._owner = this;
         stateController.NewState(new EnemyState());
+        health = 3;
         speed = 0.05f;
         jumpPower = 5;
 
