@@ -7,6 +7,9 @@ public class CombatController : MonoBehaviour
     public Actor _owner;
     public BoxCollider attackBox;
     public Rigidbody Rigidbody;
+    public Player player;
+    public List<GameObject> hitActors = new List<GameObject>();
+
 
 
     // Use this for initialization
@@ -47,27 +50,64 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void ReceiveImpact()
-    {
-
-    }
 
     public void PerformAttack()
     {
         attackBox.enabled = true;
+        hitActors = new List<GameObject>();
 
     }
 
     public void EndAttack()
     {
         attackBox.enabled = false;
+        hitActors = new List<GameObject>();
     }
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.gameObject.tag == "Hitbox")
+        if (!hitActors.Contains(other.gameObject))
         {
-            other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position,1);
+            hitActors.Add(other.gameObject);
+            if (other.gameObject.tag == "Hitbox")
+            {
+                other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position, 1);
+            }
+            else if (other.gameObject.tag == "Player")
+            {
+                other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position, 1);
+                GameManager.instance.gui_Health.TakeDamage(0);
+            }
+        }
+    }
+
+    public void NextComboInput(string next)
+    {
+        if (_owner.name == "Player")
+        {
+            player = (Player)_owner;
+            if (next == "true")
+            {
+                player.inputManager.nextInput = true;
+            }
+            else if (next == "false")
+            {
+                player.inputManager.nextInput = false;
+            }
+        }
+    }
+    public void NextComboAttack()
+    {
+        if (_owner.name == "Player")
+        {
+            player = (Player)_owner;
+            if (player.inputManager.inputQueue.Count > 0)
+            {
+                if (player.inputManager.inputQueue[0] == KeyCode.Mouse0)
+                {
+                    _owner.animationController.SetAnimationVar("Attack2");
+                    player.inputManager.inputQueue.Clear();
+                }
+            }
         }
     }
 }

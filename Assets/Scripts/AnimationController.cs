@@ -36,7 +36,6 @@ public class AnimationController : MonoBehaviour {
 
     public void SetLastPlayedAnimation (string animationName)
     {
-        Debug.Log(animationName);
         lastPlayedAnimation = animationName;
     }
 }

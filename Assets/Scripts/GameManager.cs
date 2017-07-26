@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public GUI_Health gui_Health;
     public GameObject player;
-
+    public List<GameObject> enemyDrops = new List<GameObject>();
 
     private void Awake()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 
-    List<KeyCode> inputQueue = new List<KeyCode>();
+    public List<KeyCode> inputQueue = new List<KeyCode>();
     public Actor _owner;
     public bool nextInput;
 
@@ -56,23 +56,5 @@ public class InputManager : MonoBehaviour
 
     }
 
-    public void NextComboInput(string next)
-    {
-        if (next == "true")
-            nextInput = true;
-        else if (next == "false")
-            nextInput = false;
-    }
-    public void NextComboAttack()
-    {
-        if (inputQueue.Count > 0)
-        {
-            Debug.Log(inputQueue[0]);
-            if (inputQueue[0] == KeyCode.Mouse0)
-            {
-                _owner.animationController.SetAnimationVar("Attack2");
-                inputQueue.Clear();
-            }
-        }
-    }
+    
 }

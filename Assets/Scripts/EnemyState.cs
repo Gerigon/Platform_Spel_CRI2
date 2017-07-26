@@ -22,7 +22,7 @@ public class EnemyState : State {
             _owner.movementController.MoveTo(GameManager.instance.player.transform.position);
             _owner.movementController.Rotate(GameManager.instance.player.transform.position);
         }
-        if (Vector3.Distance(_owner.transform.position, GameManager.instance.player.transform.position) < 3)
+        if (Vector3.Distance(_owner.transform.position, GameManager.instance.player.transform.position) < 5)
         {
             _owner.animationController.SetAnimationVar("Attack");
         }

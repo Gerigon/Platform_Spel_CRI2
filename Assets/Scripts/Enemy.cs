@@ -23,5 +23,10 @@ public class Enemy : Actor {
         base.Update();
 		
 	}
-    
+
+    public void OnDestroy()
+    {
+        Instantiate(GameManager.instance.enemyDrops[0], new Vector3(transform.position.x,.75f, transform.position.z), Quaternion.AngleAxis(90, Vector3.left));
+    }
+
 }
