@@ -15,6 +15,8 @@ public class Enemy : Actor {
         health = 3;
         speed = 0.05f;
         jumpPower = 5;
+        poise = 5;
+        maxPoise = 5;
 
     }
 

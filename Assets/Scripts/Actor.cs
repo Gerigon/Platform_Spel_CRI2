@@ -10,6 +10,8 @@ public class Actor : MonoBehaviour {
     public float speed;
     public float jumpPower;
     public int health;
+    public float poise;
+    public float maxPoise;
 
     // Use this for initialization
     protected virtual void Start () {

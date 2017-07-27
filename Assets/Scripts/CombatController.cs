@@ -9,7 +9,9 @@ public class CombatController : MonoBehaviour
     public Rigidbody Rigidbody;
     public Player player;
     public List<GameObject> hitActors = new List<GameObject>();
-
+    public bool inCombat;
+    public bool combatTimerRunning;
+    private Coroutine combatTimer;
 
 
     // Use this for initialization
@@ -18,6 +20,14 @@ public class CombatController : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
         Debug.Log("looking for weapon hitboxes");
         TraverseHierarchy(transform);
+    }
+    private void Update()
+    {
+        if (inCombat)
+            _owner.poise += 0.01f;
+        else
+            _owner.poise += 0.1f;
+        _owner.poise = Mathf.Clamp(_owner.poise, -5, _owner.maxPoise);
     }
 
     public void TraverseHierarchy(Transform root)
@@ -35,15 +45,24 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void ReceiveHit(Vector3 enemyPos, int Damage)
+    public void ReceiveHit(Vector3 enemyPos, int Damage, int poiseDamage)
     {
-        Debug.Log(_owner.name + " is gehit");
+        inCombat = true;
+        if (combatTimer != null)
+            StopCoroutine(combatTimer);
+        combatTimer = StartCoroutine(CombatTimer());
+        
+        
         Vector3 dir = new Vector3(transform.position.x - enemyPos.x, 1, transform.position.z - enemyPos.z).normalized;
         float force = 5;
         Rigidbody.AddForce(dir * force, ForceMode.Impulse);
 
         _owner.health -= Damage;
-        _owner.animationController.SetAnimationVar("Hit");
+        _owner.poise -= poiseDamage;
+        if (_owner.poise <= 0)
+        {
+            _owner.animationController.SetAnimationVar("Hit");
+        }
         if (_owner.health <= 0)
         {
             Destroy(_owner.gameObject);
@@ -65,16 +84,33 @@ public class CombatController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        
         if (!hitActors.Contains(other.gameObject))
         {
-            hitActors.Add(other.gameObject);
+            
             if (other.gameObject.tag == "Hitbox")
             {
-                other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position, 1);
+                Debug.Log(other.name);
+                inCombat = true;
+                if (combatTimer != null)
+                    StopCoroutine(combatTimer);
+                combatTimer = StartCoroutine(CombatTimer());
+
+                hitActors.Add(other.gameObject);
+
+                other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position, 1, 5);
             }
             else if (other.gameObject.tag == "Player")
             {
-                other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position, 1);
+                Debug.Log(other.name);
+                inCombat = true;
+                if (combatTimer != null)
+                    StopCoroutine(combatTimer);
+                combatTimer = StartCoroutine(CombatTimer());
+
+                hitActors.Add(other.gameObject);
+
+                other.transform.GetComponent<Actor>().combatController.ReceiveHit(transform.position, 1, 5);
                 GameManager.instance.gui_Health.TakeDamage(0);
             }
         }
@@ -109,5 +145,15 @@ public class CombatController : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator CombatTimer()
+    {
+        Debug.Log("starting coroutine on "+_owner.name);
+        combatTimerRunning = true;
+        yield return new WaitForSeconds(3);
+        inCombat = false;
+        combatTimerRunning = false;
+        Debug.Log("ending coroutine on " + _owner.name);
     }
 }
