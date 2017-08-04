@@ -16,6 +16,8 @@ public class Player : Actor
         speed = 0.5f;
         jumpPower = 5;
         health = 7;
+        poise = 10;
+        maxPoise = 10;
 
     }
 
