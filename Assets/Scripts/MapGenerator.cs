@@ -27,7 +27,7 @@ public class MapGenerator : MonoBehaviour
 				{
 								if (Input.GetMouseButtonDown(0))
 								{
-											//	GenerateMap();
+											GenerateMap();
 												
 								}
 				}
@@ -97,9 +97,7 @@ public class MapGenerator : MonoBehaviour
 																{
 																				if (neighbourX != gridX || neighbourY != gridY)
 																				{
-																								Debug.Log(wallCount);
 																								wallCount += map[neighbourX, neighbourY];
-																								Debug.Log(wallCount);
 																				}
 																}
 																else
@@ -137,7 +135,7 @@ public class MapGenerator : MonoBehaviour
 				//												{
 				//																Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
 				//																Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
-				//																Gizmos.DrawCube(pos, new Vector3(3,3,3));
+				//																Gizmos.DrawCube(pos, new Vector3(3, 3, 3));
 				//												}
 				//								}
 				//				}
