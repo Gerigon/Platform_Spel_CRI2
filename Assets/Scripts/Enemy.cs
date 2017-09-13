@@ -12,8 +12,11 @@ public class Enemy : Actor {
         stateController = gameObject.AddComponent<StateController>();
         stateController._owner = this;
         stateController.NewState(new EnemyState());
+        health = 3;
         speed = 0.05f;
         jumpPower = 5;
+        poise = 5;
+        maxPoise = 5;
 
     }
 
@@ -22,5 +25,10 @@ public class Enemy : Actor {
         base.Update();
 		
 	}
-    
+
+    public void OnDestroy()
+    {
+        Instantiate(GameManager.instance.enemyDrops[0], new Vector3(transform.position.x,.75f, transform.position.z), Quaternion.AngleAxis(90, Vector3.left));
+    }
+
 }
