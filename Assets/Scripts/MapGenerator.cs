@@ -41,7 +41,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         ProcessMap();
-
+        GetRegionTiles(50, 10, 240);
         int borderSize = 1;
         int[,] borderedMap = new int[width + borderSize * 2, height + borderSize * 2];
 
@@ -66,13 +66,23 @@ public class MapGenerator : MonoBehaviour
 
     void ProcessMap()
     {
-
-
         List<List<Coord>> WallRegions = GetRegions(1);
 
         int wallThresholdSize = 50;
         foreach (List<Coord> wallRegion in WallRegions)
         {
+            //foreach (List<Coord> wallRegionn in WallRegions)
+            
+            //    foreach (Coord tile in wallRegion)
+            //    {
+            //        foreach (Coord tilee in wallRegionn)
+            //        {
+                        
+            //            if (Mathf.Sqrt(Mathf.Pow((tile.tileY - tile.tileX),2)+ Mathf.Pow((tilee.tileY-tilee.tileY),2)) < 5)
+            //            {
+            //            }
+            //        }
+            //}
             if (wallRegion.Count < wallThresholdSize)
             {
                 foreach (Coord tile in wallRegion)
@@ -101,7 +111,6 @@ public class MapGenerator : MonoBehaviour
     {
         List<List<Coord>> regions = new List<List<Coord>>();
         int[,] mapFlags = new int[width, height];
-
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -122,17 +131,18 @@ public class MapGenerator : MonoBehaviour
         return regions;
     }
 
-    List<Coord> GetRegionTiles(int startX, int startY)
+    List<Coord> GetRegionTiles(int startX, int startY, int limit = 10000)
     {
         List<Coord> tiles = new List<Coord>();
         int[,] mapFlags = new int[width, height];
         int tileType = map[startX, startY];
-
+        if (limit != 10000)
+            map[startX, startY] = 2;
         Queue<Coord> queue = new Queue<Coord>();
         queue.Enqueue(new Coord(startX, startY));
         mapFlags[startX, startY] = 1;
 
-        while (queue.Count > 0)
+        while (queue.Count > 0 && tiles.Count < limit)
         {
             Coord tile = queue.Dequeue();
             tiles.Add(tile);
@@ -144,6 +154,14 @@ public class MapGenerator : MonoBehaviour
                     {
                         if (mapFlags[x, y] == 0 && map[x, y] == tileType)
                         {
+                            if (limit == 10000)
+                            {
+                                
+                            }
+                            else
+                            {
+                                map[x, y] = 2;
+                            }
                             mapFlags[x, y] = 1;
                             queue.Enqueue(new Coord(x, y));
                         }
@@ -235,6 +253,24 @@ public class MapGenerator : MonoBehaviour
         {
             tileX = x;
             tileY = y;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        if (map != null) {
+            for (int x = 0; x < width; x ++) {
+                for (int y = 0; y < height; y ++) {
+                    if (map[x, y] == 0)
+                        Gizmos.color = Color.white;
+                    if (map[x, y] == 1)
+                        Gizmos.color = Color.black;
+                    if (map[x, y] == 2)
+                        Gizmos.color = Color.green;
+                    Vector3 pos = new Vector3(-width/2 + x + .5f,0, -height/2 + y+.5f);
+                    Gizmos.DrawCube(pos,Vector3.one);
+                }
+            }
         }
     }
 }
