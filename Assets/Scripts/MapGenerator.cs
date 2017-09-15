@@ -40,8 +40,9 @@ public class MapGenerator : MonoBehaviour
             SmoothMap();
         }
 
+        SetRegionTiles((int)UnityEngine.Random.Range((float)(width * .1), (float)(width - width * .1)), (int)UnityEngine.Random.Range((float)(height * .1), (float)(height - height * .1)), 2, 15000);
+        SetRegionTiles((int)UnityEngine.Random.Range((float)(width * .1), (float)(width - width * .1)), (int)UnityEngine.Random.Range((float)(height * .1), (float)(height - height * .1)), 3, 10000);
         ProcessMap();
-        GetRegionTiles(50, 10, 240);
         int borderSize = 1;
         int[,] borderedMap = new int[width + borderSize * 2, height + borderSize * 2];
 
@@ -71,18 +72,6 @@ public class MapGenerator : MonoBehaviour
         int wallThresholdSize = 50;
         foreach (List<Coord> wallRegion in WallRegions)
         {
-            //foreach (List<Coord> wallRegionn in WallRegions)
-            
-            //    foreach (Coord tile in wallRegion)
-            //    {
-            //        foreach (Coord tilee in wallRegionn)
-            //        {
-                        
-            //            if (Mathf.Sqrt(Mathf.Pow((tile.tileY - tile.tileX),2)+ Mathf.Pow((tilee.tileY-tilee.tileY),2)) < 5)
-            //            {
-            //            }
-            //        }
-            //}
             if (wallRegion.Count < wallThresholdSize)
             {
                 foreach (Coord tile in wallRegion)
@@ -115,7 +104,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (mapFlags[x,y] == 0 && map[x,y] == tileType)
+                if (mapFlags[x, y] == 0 && map[x, y] == tileType)
                 {
                     List<Coord> newRegion = GetRegionTiles(x, y);
                     regions.Add(newRegion);
@@ -123,24 +112,26 @@ public class MapGenerator : MonoBehaviour
                     foreach (Coord tile in newRegion)
                     {
                         mapFlags[tile.tileX, tile.tileY] = 1;
-                        
+
                     }
                 }
             }
         }
         return regions;
     }
-
-    List<Coord> GetRegionTiles(int startX, int startY, int limit = 10000)
+    List<Coord> SetRegionTiles(int startX, int startY, int biomeNumber, int limit = 1000000)
     {
         List<Coord> tiles = new List<Coord>();
         int[,] mapFlags = new int[width, height];
-        int tileType = map[startX, startY];
-        if (limit != 10000)
-            map[startX, startY] = 2;
+        int tileType = 0;
+        map[startX, startY] = biomeNumber;
         Queue<Coord> queue = new Queue<Coord>();
         queue.Enqueue(new Coord(startX, startY));
         mapFlags[startX, startY] = 1;
+        int lowestX = width;
+        int highestX = 0;
+        int lowestY = height;
+        int highestY = 0;
 
         while (queue.Count > 0 && tiles.Count < limit)
         {
@@ -154,14 +145,66 @@ public class MapGenerator : MonoBehaviour
                     {
                         if (mapFlags[x, y] == 0 && map[x, y] == tileType)
                         {
-                            if (limit == 10000)
+                            float distanceFromCenter = Vector2.Distance(new Vector2(x, y), new Vector2(startX, startY));
+                            if (lowestX > x)
                             {
-                                
+                                lowestX = x;
                             }
-                            else
+                            if (highestX < x)
                             {
-                                map[x, y] = 2;
+                                highestX = x;
                             }
+                            if (lowestY > y)
+                            {
+                                lowestY = y;
+                            }
+                            if (highestY < y)
+                            {
+                                highestY = y;
+                            }
+                            if (distanceFromCenter < Mathf.Sqrt(limit)*0.5)
+                            {
+                                map[x, y] = biomeNumber;
+                                if (distanceFromCenter > 0.4 * Mathf.Sqrt(limit))
+                                {
+                                    map[x, y] = 1;
+                                }
+                                if (y > highestY * 0.9f)
+                                {
+                                    map[x, y] = biomeNumber;
+                                }
+                            }
+                            mapFlags[x, y] = 1;
+                            queue.Enqueue(new Coord(x, y));
+                        }
+                    }
+                }
+            }
+        }
+        return tiles;
+    }
+    List<Coord> GetRegionTiles(int startX, int startY)
+    {
+        List<Coord> tiles = new List<Coord>();
+        int[,] mapFlags = new int[width, height];
+        int tileType = map[startX, startY];
+        Queue<Coord> queue = new Queue<Coord>();
+        queue.Enqueue(new Coord(startX, startY));
+        mapFlags[startX, startY] = 1;
+
+        while (queue.Count > 0)
+        {
+            Coord tile = queue.Dequeue();
+            tiles.Add(tile);
+            for (int x = tile.tileX - 1; x <= tile.tileX + 1; x++)
+            {
+                for (int y = tile.tileY - 1; y <= tile.tileY + 1; y++)
+                {
+                    if (IsInMapRange(x, y) && (y == tile.tileY || x == tile.tileX))
+                    {
+                        if (mapFlags[x, y] == 0 && map[x, y] == tileType)
+                        {
+
                             mapFlags[x, y] = 1;
                             queue.Enqueue(new Coord(x, y));
                         }
@@ -219,7 +262,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    int GetSurroundingWallCount(int gridX, int gridY, int range=1)
+    int GetSurroundingWallCount(int gridX, int gridY, int range = 1)
     {
         int wallCount = 0;
         for (int neighbourX = gridX - range; neighbourX <= gridX + range; neighbourX++)
@@ -230,7 +273,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     if (neighbourX != gridX || neighbourY != gridY)
                     {
-                        wallCount += map[neighbourX, neighbourY];
+                        if (map[neighbourX, neighbourY] < 2)
+                            wallCount += map[neighbourX, neighbourY];
                     }
                 }
                 else
@@ -258,17 +302,22 @@ public class MapGenerator : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (map != null) {
-            for (int x = 0; x < width; x ++) {
-                for (int y = 0; y < height; y ++) {
+        if (map != null)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
                     if (map[x, y] == 0)
                         Gizmos.color = Color.white;
                     if (map[x, y] == 1)
                         Gizmos.color = Color.black;
                     if (map[x, y] == 2)
                         Gizmos.color = Color.green;
-                    Vector3 pos = new Vector3(-width/2 + x + .5f,0, -height/2 + y+.5f);
-                    Gizmos.DrawCube(pos,Vector3.one);
+                    if (map[x, y] == 3)
+                        Gizmos.color = Color.yellow;
+                    Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
+                    Gizmos.DrawCube(pos, Vector3.one);
                 }
             }
         }
