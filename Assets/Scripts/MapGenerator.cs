@@ -16,6 +16,7 @@ public class MapGenerator : MonoBehaviour
     public int randomFillPercent;
 
     int[,] map;
+				int numberOfBiomes = 1;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class MapGenerator : MonoBehaviour
 
     void GenerateMap()
     {
+								numberOfBiomes = 1;
         map = new int[width, height];
         RandomFillMap();
 
@@ -39,10 +41,10 @@ public class MapGenerator : MonoBehaviour
         {
             SmoothMap();
         }
-
-        SetRegionTiles((int)UnityEngine.Random.Range((float)(width * .1), (float)(width - width * .1)), (int)UnityEngine.Random.Range((float)(height * .1), (float)(height - height * .1)), 2, 15000);
-        SetRegionTiles((int)UnityEngine.Random.Range((float)(width * .1), (float)(width - width * .1)), (int)UnityEngine.Random.Range((float)(height * .1), (float)(height - height * .1)), 3, 10000);
-        ProcessMap();
+								GrowMap();
+								//SetRegionTiles((int)UnityEngine.Random.Range((float)(width * .1), (float)(width - width * .1)), (int)UnityEngine.Random.Range((float)(height * .1), (float)(height - height * .1)), 2, 15000);
+								//SetRegionTiles((int)UnityEngine.Random.Range((float)(width * .1), (float)(width - width * .1)), (int)UnityEngine.Random.Range((float)(height * .1), (float)(height - height * .1)), 3, 10000);
+								ProcessMap();
         int borderSize = 1;
         int[,] borderedMap = new int[width + borderSize * 2, height + borderSize * 2];
 
@@ -67,6 +69,7 @@ public class MapGenerator : MonoBehaviour
 
     void ProcessMap()
     {
+								
         List<List<Coord>> WallRegions = GetRegions(1);
 
         int wallThresholdSize = 50;
@@ -94,34 +97,80 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-    }
+								SetRegions(0);
+				}
 
-    List<List<Coord>> GetRegions(int tileType)
+				List<List<Coord>> GetRegions(int tileType)
+				{
+								List<List<Coord>> regions = new List<List<Coord>>();
+								int[,] mapFlags = new int[width, height];
+								for (int x = 0; x < width; x++)
+								{
+												for (int y = 0; y < height; y++)
+												{
+																if (mapFlags[x, y] == 0 && map[x, y] == tileType)
+																{
+																				List<Coord> newRegion = GetRegionTiles(x, y, 10000);
+																				regions.Add(newRegion);
+
+																				foreach (Coord tile in newRegion)
+																				{
+																								mapFlags[tile.tileX, tile.tileY] = 1;
+
+																				}
+																}
+												}
+								}
+								return regions;
+				}
+				List<List<Coord>> SetRegions(int tileType)
+				{
+								List<List<Coord>> regions = new List<List<Coord>>();
+								int[,] mapFlags = new int[width, height];
+								for (int x = 0; x < width; x++)
+								{
+												for (int y = 0; y < height; y++)
+												{
+																if (mapFlags[x, y] == 0 && map[x, y] == tileType)
+																{
+																				List<Coord> newRegion = GetRegionTiles(x, y, UnityEngine.Random.Range(15000,30000));
+																				Debug.Log(newRegion.Count);
+																				if (newRegion.Count > 2000)
+																				{
+																								numberOfBiomes++;
+																								regions.Add(newRegion);
+																								//int index = 0;
+																								foreach (Coord tile in newRegion)
+																								{
+																												//index ++;
+																												mapFlags[tile.tileX, tile.tileY] = 1;
+																												//if (index > 9000)
+																												//{
+																												//				map[tile.tileX, tile.tileY] = 1;
+																												//}
+																												//else
+																												//{
+																																map[tile.tileX, tile.tileY] = numberOfBiomes;
+																												//}
+
+																								}
+																				}
+																				else
+																				{
+																								foreach (Coord tile in newRegion)
+																								{
+																												map[tile.tileX, tile.tileY] = 1;
+
+																								}
+																				}
+																}
+												}
+								}
+								return regions;
+				}
+				List<Coord> SetRegionTiles(int startX, int startY, int biomeNumber, int limit = 1000000)
     {
-        List<List<Coord>> regions = new List<List<Coord>>();
-        int[,] mapFlags = new int[width, height];
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (mapFlags[x, y] == 0 && map[x, y] == tileType)
-                {
-                    List<Coord> newRegion = GetRegionTiles(x, y);
-                    regions.Add(newRegion);
-
-                    foreach (Coord tile in newRegion)
-                    {
-                        mapFlags[tile.tileX, tile.tileY] = 1;
-
-                    }
-                }
-            }
-        }
-        return regions;
-    }
-    List<Coord> SetRegionTiles(int startX, int startY, int biomeNumber, int limit = 1000000)
-    {
-        List<Coord> tiles = new List<Coord>();
+								List<Coord> tiles = new List<Coord>();
         int[,] mapFlags = new int[width, height];
         int tileType = 0;
         map[startX, startY] = biomeNumber;
@@ -169,9 +218,9 @@ public class MapGenerator : MonoBehaviour
                                 {
                                     map[x, y] = 1;
                                 }
-                                if (y > highestY * 0.9f)
-                                {
-                                    map[x, y] = biomeNumber;
+                                if (y > highestY * 0.9f) 
+																																{
+																																				map[x, y] = biomeNumber;
                                 }
                             }
                             mapFlags[x, y] = 1;
@@ -183,7 +232,7 @@ public class MapGenerator : MonoBehaviour
         }
         return tiles;
     }
-    List<Coord> GetRegionTiles(int startX, int startY)
+    List<Coord> GetRegionTiles(int startX, int startY, int size)
     {
         List<Coord> tiles = new List<Coord>();
         int[,] mapFlags = new int[width, height];
@@ -196,22 +245,25 @@ public class MapGenerator : MonoBehaviour
         {
             Coord tile = queue.Dequeue();
             tiles.Add(tile);
-            for (int x = tile.tileX - 1; x <= tile.tileX + 1; x++)
-            {
-                for (int y = tile.tileY - 1; y <= tile.tileY + 1; y++)
-                {
-                    if (IsInMapRange(x, y) && (y == tile.tileY || x == tile.tileX))
-                    {
-                        if (mapFlags[x, y] == 0 && map[x, y] == tileType)
-                        {
+												if (tiles.Count < size)
+												{
+																for (int x = tile.tileX - 1; x <= tile.tileX + 1; x++)
+																{
+																				for (int y = tile.tileY - 1; y <= tile.tileY + 1; y++)
+																				{
+																								if (IsInMapRange(x, y) && (y == tile.tileY || x == tile.tileX))
+																								{
+																												if (mapFlags[x, y] == 0 && map[x, y] == tileType)
+																												{
 
-                            mapFlags[x, y] = 1;
-                            queue.Enqueue(new Coord(x, y));
-                        }
-                    }
-                }
-            }
-        }
+																																mapFlags[x, y] = 1;
+																																queue.Enqueue(new Coord(x, y));
+																												}
+																								}
+																				}
+																}
+												}
+								}
         return tiles;
     }
 
@@ -246,23 +298,67 @@ public class MapGenerator : MonoBehaviour
     }
 
     void SmoothMap()
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                int neighbourWallTiles = GetSurroundingWallCount(x, y);
+				{
 
-                if (neighbourWallTiles > 4)
-                    map[x, y] = 1;
-                else if (neighbourWallTiles < 4)
-                    map[x, y] = 0;
+								for (int x = 0; x < width; x++)
+								{
+												for (int y = 0; y < height; y++)
+												{
+																int neighbourWallTiles = GetSurroundingWallCount(x, y);
 
-            }
-        }
-    }
+																if (neighbourWallTiles > 4)
+																				map[x, y] = 1;
+																else if (neighbourWallTiles < 4)
+																				map[x, y] = 0;
 
-    int GetSurroundingWallCount(int gridX, int gridY, int range = 1)
+												}
+								}
+				}
+
+				private void GrowMap()
+				{
+								List<Coord> regionEdgeTiles = new List<Coord>();
+								for (int x = 0; x < width; x++)
+								{
+												for (int y = 0; y < height; y++)
+												{
+																int neighbourWallTiles = GetSurroundingWallCount(x, y);
+																if (neighbourWallTiles > 0 && map[x, y] == 0)
+																{
+																				regionEdgeTiles.Add(new Coord(x, y));
+																}
+
+												}
+								}
+								Debug.Log(regionEdgeTiles.Count);
+								foreach (Coord tile in regionEdgeTiles)
+								{
+												//map[tile.tileX, tile.tileY] = 5;
+												ClearSurroundingWalls(tile.tileX, tile.tileY);
+								}
+				}
+
+				void ClearSurroundingWalls(int gridX, int gridY, int range = 1)
+				{
+								for (int neighbourX = gridX - range; neighbourX <= gridX + range; neighbourX++)
+								{
+												for (int neighbourY = gridY - range; neighbourY <= gridY + range; neighbourY++)
+												{
+																if (IsInMapRange(neighbourX, neighbourY))
+																{
+																				if (neighbourX != gridX || neighbourY != gridY)
+																				{
+																								if (map[gridX, gridY] == 0)
+																								{
+																												map[neighbourX, neighbourY] = 0;
+																								}
+																				}
+																}
+												}
+								}
+
+				}
+				int GetSurroundingWallCount(int gridX, int gridY, int range = 1)
     {
         int wallCount = 0;
         for (int neighbourX = gridX - range; neighbourX <= gridX + range; neighbourX++)
@@ -300,8 +396,21 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+				struct Biome
+				{
+								public int biomeType;
+								public int size;
+
+								public Biome(int biometype,int size_)
+								{
+												biomeType = biometype;
+												size = size_;
+								}
+				}
+
     void OnDrawGizmos()
     {
+								Color orange = new Color(255, 165, 0);
         if (map != null)
         {
             for (int x = 0; x < width; x++)
@@ -314,9 +423,40 @@ public class MapGenerator : MonoBehaviour
                         Gizmos.color = Color.black;
                     if (map[x, y] == 2)
                         Gizmos.color = Color.green;
-                    if (map[x, y] == 3)
-                        Gizmos.color = Color.yellow;
-                    Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
+																				if (map[x, y] == 3)
+																								Gizmos.color = Color.yellow;
+																				if (map[x, y] == 4)
+																								Gizmos.color = Color.blue;
+																				if (map[x, y] == 5)
+																								Gizmos.color = Color.cyan;
+																				if (map[x, y] == 6)
+																								Gizmos.color = Color.magenta;
+																				if (map[x, y] == 7)
+																								Gizmos.color = Color.red;
+																				if (map[x, y] == 8)
+																								Gizmos.color = Color.white;
+																				if (map[x, y] == 9)
+																								Gizmos.color = Color.gray;
+																				if (map[x, y] == 10)
+																								Gizmos.color = Color.red;
+																				if (map[x, y] == 11)
+																								Gizmos.color = Color.green;
+																				if (map[x, y] == 12)
+																								Gizmos.color = Color.yellow;
+																				if (map[x, y] == 13)
+																								Gizmos.color = Color.blue;
+																				if (map[x, y] == 14)
+																								Gizmos.color = Color.cyan;
+																				if (map[x, y] == 15)
+																								Gizmos.color = Color.magenta;
+																				if (map[x, y] == 16)
+																								Gizmos.color = Color.gray;
+																				if (map[x, y] == 17)
+																								Gizmos.color = Color.red;
+																				if (map[x,y] == 300)
+																								Gizmos.color = orange;
+
+																				Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
                     Gizmos.DrawCube(pos, Vector3.one);
                 }
             }
